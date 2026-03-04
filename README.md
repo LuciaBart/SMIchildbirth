@@ -8,11 +8,13 @@ This repository contains the complete analytical pipeline, processed data, and R
 ## Overview
 The project is structured as a reproducible workflow that evaluates childbirth experiences under the WHO Positive Childbirth Experience framework. Using secondary data from household surveys, the pipeline performs:
 
-- Data Harmonization: Cleaning and merging multi-country household survey data.
+- Data harmonization: Cleaning and merging multi-country household survey data.
 
-- Statistical Analysis: Implementation of design-adjusted chi-squared tests (Rao-Scott correction) to account for complex survey designs.
+- Statistical analysis: Implementation of design-adjusted chi-squared tests (Rao-Scott correction) to account for complex survey designs.
 
-- Longitudinal Trends: Analysis of birth setting transitions across three follow-up points.
+- Longitudinal trends: Analysis of birth setting transitions across three follow-up points.
+
+- Multiple pregnancies: analysis of institutional quality of care and reasons for home birth for women that switch birth settings.
 
 All analyses were implemented using the R Programming Language.
 
@@ -24,13 +26,9 @@ The repository is organized to ensure that every figure and table in the paper c
 
 /Scripts:
 
-01_Birthsettingsdistribution.R: 
+01_Birthsettingsdistribution.R: Descriptive analysis of the place of delivery (Figs. 2,3,4,5). 
 
-02_Index.R: 
-
-03_Institutionaldomains.R: 
-
-04_Multiplepregnancies.R: 
+02_Multiplepregnancies.R: 
 
 
 ## Instructions for Reproduction
