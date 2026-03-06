@@ -22,11 +22,11 @@ All analyses were implemented using the R Programming Language.
 ## Repository Structure
 The repository is organized to ensure that every figure and table in the paper can be traced back to its specific source code:
 
-/Data: Contains anonymized secondary data from household surveys (Guatemala, Chiapas, Nicaragua, and Honduras).
+[/Data:](https://github.com/LuciaBart/SMIchildbirth/tree/main/Data) Contains anonymized secondary data from household surveys (Guatemala, Chiapas, Nicaragua, and Honduras).
 
-/Scripts:
+[/Scripts:](https://github.com/LuciaBart/SMIchildbirth/tree/main/Scripts)
 
-01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2,3,4,5). 
+01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2-5). 
 
 02_Multiplepregnancies.R: Analysis of women with more than 1 child for the second follow-up (Figs. 7 and 8)
 
