@@ -26,9 +26,9 @@ The repository is organized to ensure that every figure and table in the paper c
 
 [/Scripts:](https://github.com/LuciaBart/SMIchildbirth/tree/main/Scripts)
 
-01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2-5). 
+- 01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2-5). 
 
-02_Multiplepregnancies.R: Analysis of women with more than 1 child for the second follow-up (Figs. 7 and 8)
+- 02_Multiplepregnancies.R: Analysis of women with more than 1 child for the second follow-up (Figs. 7 and 8)
 
 
 ## Instructions for Reproduction
