@@ -12,7 +12,7 @@ The project is structured as a reproducible workflow that evaluates childbirth e
 
 - Statistical analysis: Implementation of design-adjusted chi-squared tests (Rao-Scott correction) to account for complex survey designs.
 
-- Longitudinal trends: Analysis of birth setting transitions across three follow-up points.
+- Longitudinal trends: Analysis of birth setting transitions across three follow-up points. 
 
 - Multiple pregnancies: analysis of institutional quality of care and reasons for home birth for women that switch birth settings.
 
@@ -26,9 +26,9 @@ The repository is organized to ensure that every figure and table in the paper c
 
 /Scripts:
 
-01_Birthsettingsdistribution.R: Descriptive analysis of the place of delivery (Figs. 2,3,4,5). 
+01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2,3,4,5). 
 
-02_Multiplepregnancies.R: 
+02_Multiplepregnancies.R: Analysis of women with more than 1 child for the second follow-up (Figs. 7 and 8)
 
 
 ## Instructions for Reproduction
