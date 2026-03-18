@@ -207,15 +207,15 @@ graf <- ggplot(df_long_updated, aes(y = FUP, x = Percentage_100, fill = Delivery
   geom_text(aes(label = paste0(round(Percentage_NR), "%")),
             position = position_stack(vjust = 0.5),
             hjust = 0.5,
-            color = "white", size = 3) +
+            color = "white", size = 7) +         
   guides(fill = guide_legend(reverse = TRUE, title = "Delivery type")) +
   scale_fill_manual(values = c("Home birth" = "#D71B60",
                                "Institutional delivery" = "#46B487")) +
   scale_y_discrete() +
   scale_x_continuous(labels = function(x) paste0(x, "%"), limits = c(0, 100)) +
   geom_text(aes(x = 105, label = paste0("N = ", N_total)),
-            hjust = 0, vjust = 0.5, size = 3.5) +
-  facet_wrap(~ Country, scales = "free_y", ncol = 2) +  
+            hjust = 0, vjust = 0.5, size = 7) +   
+  facet_wrap(~ Country, scales = "free_y", ncol = 2) +
   theme_minimal() +
   labs(title = "Birth settings distribution") +
   theme(
@@ -224,10 +224,13 @@ graf <- ggplot(df_long_updated, aes(y = FUP, x = Percentage_100, fill = Delivery
     panel.grid.minor = element_blank(),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
-    axis.text.x = element_text(size = 10, face = "bold"),
-    axis.text.y = element_text(angle = 0, hjust = 1),
+    axis.text.x = element_text(size = 20, face = "bold"),  
+    axis.text.y = element_text(size = 20, angle = 0, hjust = 1),  
     plot.margin = margin(r = 80, l = 80, t = 10, b = 10),
-    strip.text = element_text(face = "bold")
+    strip.text = element_text(size = 20, face = "bold"),   
+    legend.text = element_text(size = 20),                 
+    legend.title = element_text(size = 20),                
+    plot.title = element_text(size = 20)                   
   )
 print(graf)
 
@@ -294,18 +297,25 @@ nombres_paises <- c("4 (4/4 affirmative domains)", "3 (3/4 affirmative domains)"
 graf_d <- ggplot(resultados_proporciones, aes(x = FUP, y = proporcion, fill = factor(index_d_qoc))) +
   geom_col(position = "dodge") +
   geom_text(data = aux_data, aes(x = FUP, y = 0.8, label = paste("N=", N_total, sep="")),
-            position = position_dodge(width = 0.9), vjust = -0.5, size =3.5) +
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 7) +  # era 3.5 → 7
   scale_y_continuous(limits = c(0, 0.9)) +
-  facet_wrap(~ PAIS, ncol = 2, labeller = labeller(PAIS = function(x) c("Guatemala", "Honduras", "Chiapas", "Nicaragua"))) + 
+  facet_wrap(~ PAIS, ncol = 2, labeller = labeller(PAIS = function(x) c("Guatemala", "Honduras", "Chiapas", "Nicaragua"))) +
   labs(title = "Score proportion distribution in live births by country and follow up",
        x = "Follow up", y = "Proportion of live births with each score", fill = "Quality domain score value") +
-  scale_fill_manual(values = c("#BE2641", "#EA7246", "#E87687", "#76669B", "#33608C"),  # Ajusta los colores según tus preferencias
-                    labels = nombres_paises) +  
+  scale_fill_manual(values = c("#BE2641", "#EA7246", "#E87687", "#76669B", "#33608C"),
+                    labels = nombres_paises) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5))+  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(face = "bold", size = 12)) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 16 → 20
+    plot.subtitle = element_text(hjust = 0.5, size = 20),              # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),     # agregado → 20
+    axis.text.y = element_text(size = 20),                             # agregado → 20
+    axis.title.x = element_text(size = 20),                            # agregado → 20
+    axis.title.y = element_text(size = 20),                            # agregado → 20
+    strip.text = element_text(face = "bold", size = 20),               # era 12 → 20
+    legend.text = element_text(size = 20),                             # agregado → 20
+    legend.title = element_text(size = 20)                             # agregado → 20
+  ) +
   coord_flip()
 
 print(graf_d)
@@ -446,9 +456,18 @@ graf <- props_df %>%
     color = "Birth delivery choice factors"
   ) +
   theme_minimal() +
-  scale_color_brewer(palette = "Set2")+
-  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20))
-
+  scale_color_brewer(palette = "Set2") +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)) +
+  theme(
+    plot.title = element_text(size = 30),         # agregado → 20
+    axis.text.x = element_text(size = 30),        # agregado → 20
+    axis.text.y = element_text(size = 30),        # agregado → 20
+    axis.title.x = element_text(size = 30),       # agregado → 20
+    axis.title.y = element_text(size = 30),       # agregado → 20
+    strip.text = element_text(size = 30),         # agregado → 20
+    legend.text = element_text(size = 30),        # agregado → 20
+    legend.title = element_text(size = 30)        # agregado → 20
+  )
 print(graf)
 #ggsave("Lineas.svg", plot = graf, width = 10, height = 8) 
 
@@ -619,12 +638,12 @@ datos <- datos %>%
   ))
 
 # MEX to Chiapas
-plot_pais <-  datos %>% 
-  mutate(FUP = factor(FUP, levels = c("Baseline", "Second FUP", "Third FUP"))) %>% 
+plot_pais <- datos %>%
+  mutate(FUP = factor(FUP, levels = c("Baseline", "Second FUP", "Third FUP"))) %>%
   ggplot(aes(x = Domain, y = Mean, fill = FUP)) +
-  geom_bar(stat = "identity", position = "dodge") +  # Gráfico de barras agrupadas
-  geom_errorbar(aes(ymin = IC25, ymax = IC975), position = position_dodge(width = 0.9), width = 0.2) +  # Barras de error
-  facet_wrap(~ COUNTRY, ncol = 2) +  # Grilla de 4 gráficos (2 columnas)
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(aes(ymin = IC25, ymax = IC975), position = position_dodge(width = 0.9), width = 0.2) +
+  facet_wrap(~ COUNTRY, ncol = 2) +
   labs(
     title = "Proportion of affirmative answers in each country and each follow up for each quality domain",
     x = "Domain",
@@ -632,9 +651,17 @@ plot_pais <-  datos %>%
     fill = "FUP"
   ) +
   scale_fill_manual(values = c("#4271AE", "#9B59B6", "#5DADE2")) +
-  theme_bw() +  # Tema blanco y negro
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotar etiquetas del eje X
-
+  theme_bw() +
+  theme(
+    plot.title = element_text(size = 20),          # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # era sin size → 20
+    axis.text.y = element_text(size = 20),         # agregado → 20
+    axis.title.x = element_text(size = 20),        # agregado → 20
+    axis.title.y = element_text(size = 20),        # agregado → 20
+    strip.text = element_text(size = 20),          # agregado → 20
+    legend.text = element_text(size = 20),         # agregado → 20
+    legend.title = element_text(size = 20)         # agregado → 20
+  )
 print(plot_pais)
 
 

@@ -16,7 +16,7 @@ library(writexl)
 library(patchwork)
 
 #Load data from 36M, women with more than 2 childs, last 2
-load("Analysis/Question_3/Paper_sub/multi.RData")
+load("Data/multi.RData")
 
 ##################################
 ###institucional a domiciliario###
@@ -132,22 +132,22 @@ nombres_paises <- c("4 (4/4 affirmative domains)", "3 (3/4 affirmative domains)"
 
 index_plot_id <- ggplot(df_long, aes(x = index, y = valor)) +
   geom_col(position = "dodge", fill = "grey") +
-#  geom_text(data = aux_data, aes(x = index, y = 1, label = paste("N=", N_total, sep="")),
-#            position = position_dodge(width = 0.9), vjust = -0.5, size =4) +
-#  geom_text(aes(y = 0.1, label = index, group = factor(index)),
-#            position = position_dodge(width = 0.9), vjust = 0.5, size = 3, color = "black") +
   scale_y_continuous(limits = c(0, 1)) +
   labs(title = "First child",
        subtitle = "Score proportion distribution",
-       # subtitle = "Quality domains",
        x = "Index", y = "Proportion of live births with each score") +
-  facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +  
+  facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 16),
-        plot.subtitle = element_text(hjust = 0.5))+  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none",
-        strip.text = element_text(face = "bold")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
+    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
+    axis.text.y = element_text(size = 20),                   # agregado → 20
+    axis.title.x = element_text(size = 20),                  # agregado → 20
+    axis.title.y = element_text(size = 20),                  # agregado → 20
+    legend.position = "none",
+    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+  ) +
   coord_flip()
 
 print(index_plot_id)
@@ -228,17 +228,17 @@ reasons_plot_id <- props_df %>%
   mutate(
     PAIS = factor(PAIS, levels = c("Chiapas", "Guatemala", "Honduras", "Nicaragua")),
     dominio_razon = case_when(
-    Valor == "1" ~ "Knowledge",
-    Valor == "2" ~ "Accesibility",
-    Valor == "3" ~ "Infrastructure",
-    Valor == "4" ~ "Treatment and Communication",
-    Valor == "5" ~ "Family",
-    Valor == "6" ~ "Cultural Preferences",
-    TRUE ~ Valor
-  )) %>%
-ggplot(aes(x = dominio_razon, y = Proporcion)) +
+      Valor == "1" ~ "Knowledge",
+      Valor == "2" ~ "Accesibility",
+      Valor == "3" ~ "Infrastructure",
+      Valor == "4" ~ "Treatment and Communication",
+      Valor == "5" ~ "Family",
+      Valor == "6" ~ "Cultural Preferences",
+      TRUE ~ Valor
+    )) %>%
+  ggplot(aes(x = dominio_razon, y = Proporcion)) +
   geom_bar(stat = "identity", fill = "grey") +
-  facet_wrap(~ PAIS, ncol = 1, labeller = labeller(PAIS = function(x) 
+  facet_wrap(~ PAIS, ncol = 1, labeller = labeller(PAIS = function(x)
     c("Chiapas", "Guatemala", "Honduras", "Nicaragua"))) +
   labs(
     title = "Second child",
@@ -247,21 +247,29 @@ ggplot(aes(x = dominio_razon, y = Proporcion)) +
     y = "Proportion of reason choice"
   ) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 16),
-        plot.subtitle = element_text(hjust = 0.5))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(face = "bold")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
+    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
+    axis.text.y = element_text(size = 20),                   # agregado → 20
+    axis.title.x = element_text(size = 20),                  # agregado → 20
+    axis.title.y = element_text(size = 20),                  # agregado → 20
+    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+  ) +
   coord_flip()
+print(reasons_plot_id)
 
 print(reasons_plot_id)
 
-combined_plot_id <- index_plot_id + reasons_plot_id + 
+combined_plot_id <- index_plot_id + reasons_plot_id +
   plot_layout(ncol = 2, widths = c(1, 1)) +
   plot_annotation(
     title = "Switch from institutional to home delivery",
-    subtitle = "Chiapas N = 25 | Guatemala N = 50 | Honduras N = 8 | Nicaragua N =12",
-    theme = theme(plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
-                  plot.subtitle = element_text(hjust = 0.5)) # Añadimos hjust = 0.5 al subtítulo
+    subtitle = "Chiapas N = 25 | Guatemala N = 50 | Honduras N = 8 | Nicaragua N = 12",
+    theme = theme(
+      plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 18 → 20
+      plot.subtitle = element_text(hjust = 0.5, size = 20)               # agregado → 20
+    )
   )
 
 print(combined_plot_id)
@@ -378,24 +386,23 @@ aux_data <- final_grafico %>%
 
 index_plot_di <- ggplot(df_long, aes(x = index, y = valor)) +
   geom_col(position = "dodge", fill = "grey") +
-  #  geom_text(data = aux_data, aes(x = index, y = 1, label = paste("N=", N_total, sep="")),
-  #            position = position_dodge(width = 0.9), vjust = -0.5, size =4) +
-  #  geom_text(aes(y = 0.1, label = index, group = factor(index)),
-  #            position = position_dodge(width = 0.9), vjust = 0.5, size = 3, color = "black") +
   scale_y_continuous(limits = c(0, 1)) +
   labs(title = "Second child",
        subtitle = "Score proportion distribution",
-       # subtitle = "Quality domains",
        x = "Index", y = "Proportion of live births with each score") +
-  facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +  
+  facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 16),
-        plot.subtitle = element_text(hjust = 0.5))+  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none",
-        strip.text = element_text(face = "bold")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
+    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
+    axis.text.y = element_text(size = 20),                   # agregado → 20
+    axis.title.x = element_text(size = 20),                  # agregado → 20
+    axis.title.y = element_text(size = 20),                  # agregado → 20
+    legend.position = "none",
+    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+  ) +
   coord_flip()
-
 print(index_plot_di)
 
 #razones
@@ -484,7 +491,7 @@ reasons_plot_di <- props_df %>%
     )) %>%
   ggplot(aes(x = dominio_razon, y = Proporcion)) +
   geom_bar(stat = "identity", fill = "grey") +
-  facet_wrap(~ PAIS, ncol = 1, labeller = labeller(PAIS = function(x) 
+  facet_wrap(~ PAIS, ncol = 1, labeller = labeller(PAIS = function(x)
     c("Chiapas", "Guatemala", "Honduras", "Nicaragua"))) +
   scale_y_continuous(limits = c(0, 1)) +
   labs(
@@ -494,23 +501,29 @@ reasons_plot_di <- props_df %>%
     y = "Proportion of reason choice"
   ) +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, size = 16),
-        plot.subtitle = element_text(hjust = 0.5))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        strip.text = element_text(face = "bold")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
+    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
+    axis.text.y = element_text(size = 20),                   # agregado → 20
+    axis.title.x = element_text(size = 20),                  # agregado → 20
+    axis.title.y = element_text(size = 20),                  # agregado → 20
+    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+  ) +
   coord_flip()
 
 print(reasons_plot_di)
 
-combined_plot_di <- reasons_plot_di + index_plot_di + 
+combined_plot_di <- reasons_plot_di + index_plot_di +
   plot_layout(ncol = 2, widths = c(1, 1)) +
   plot_annotation(
     title = "Switch from home to institutional delivery",
-    subtitle = "Chiapas N = 39 | Guatemala N = 48 | Honduras N = 38 | Nicaragua N =17",
-    theme = theme(plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
-                  plot.subtitle = element_text(hjust = 0.5)) # Añadimos hjust = 0.5 al subtítulo
+    subtitle = "Chiapas N = 39 | Guatemala N = 48 | Honduras N = 38 | Nicaragua N = 17",
+    theme = theme(
+      plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 18 → 20
+      plot.subtitle = element_text(hjust = 0.5, size = 20)               # agregado → 20
+    )
   )
-
 
 print(combined_plot_di)
 
