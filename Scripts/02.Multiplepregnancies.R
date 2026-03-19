@@ -25,7 +25,7 @@ load("Data/multi.RData")
 id <- multi %>% 
   dplyr::filter(categoria == "i_d") 
 
-#índice
+#index
 institucional_36 <- id %>%
   dplyr::filter(!is.na(index_d_qoc)) %>% 
   dplyr::filter(tipoparto == "institucional") %>% 
@@ -34,37 +34,21 @@ institucional_36 <- id %>%
 table(institucional_36$index_d_qoc, institucional_36$PAIS)
 
 calcular_proporciones <- function(institucional_36) {
-  # Obtener los países únicos
   paises <- unique(institucional_36$PAIS)
-  
-  # Obtener los valores únicos de index_d_qoc
   indices <- sort(unique(institucional_36$index_d_qoc))
-  
-  # Crear un data.frame para almacenar los resultados
   resultados <- data.frame(PAIS = paises)
-  
-  # Para cada país, calcular las proporciones para cada valor de index_d_qoc
   for (pais in paises) {
-    # Filtrar datos para este país
     datos_pais <- subset(institucional_36, PAIS == pais)
-    
-    # Calcular el peso total para este país
     peso_total <- sum(datos_pais$WEIGHT_WOMAN)
-    
-    # Para cada valor de index_d_qoc, calcular la proporción
     for (indice in indices) {
-      # Filtrar para este índice
       datos_indice <- subset(datos_pais, index_d_qoc == indice)
-      
-      # Si hay datos para este índice, calcular la proporción
-      if (nrow(datos_indice) > 0) {
+        if (nrow(datos_indice) > 0) {
         peso_indice <- sum(datos_indice$WEIGHT_WOMAN)
         proporcion <- peso_indice / peso_total
       } else {
-        proporcion <- 0  # Si no hay datos para este índice
+        proporcion <- 0 
       }
       
-      # Agregar al data.frame de resultados
       resultados[resultados$PAIS == pais, paste0("index_", indice)] <- proporcion
     }
   }
@@ -75,10 +59,6 @@ calcular_proporciones <- function(institucional_36) {
 # Ejecutar la función
 proporciones <- calcular_proporciones(institucional_36)
 
-# Mostrar los resultados
-print(proporciones)
-
-library(writexl)
 write_xlsx(proporciones, "id_multi_index_prop.xlsx")
 
 df_long <- proporciones %>%
@@ -98,7 +78,7 @@ conteo <- conteo %>%
     PAIS == "MEX" ~ "Chiapas",
     PAIS == "HND" ~ "Honduras",
     PAIS == "GTM" ~ "Guatemala",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 df_long <- df_long %>%
@@ -107,7 +87,7 @@ df_long <- df_long %>%
     PAIS == "MEX" ~ "Chiapas",
     PAIS == "HND" ~ "Honduras",
     PAIS == "GTM" ~ "Guatemala",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 df_long <- df_long %>%
@@ -117,7 +97,7 @@ df_long <- df_long %>%
     index == "index_2" ~ "2/4",
     index == "index_3" ~ "3/4",
     index == "index_4" ~ "4/4",
-    TRUE ~ index # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ index 
   ))
 
 final_grafico <- df_long %>%
@@ -125,7 +105,7 @@ final_grafico <- df_long %>%
 
 aux_data <- final_grafico %>%
   group_by(PAIS) %>%
-  slice(1) %>%  # Toma solo la primera fila de cada grupo
+  slice(1) %>%  
   ungroup()
 
 nombres_paises <- c("4 (4/4 affirmative domains)", "3 (3/4 affirmative domains)", "2 (2/4 affirmative domains)", "1 (1/4 affirmative domains)", "0 (0/4 affirmative domains)") 
@@ -139,14 +119,14 @@ index_plot_id <- ggplot(df_long, aes(x = index, y = valor)) +
   facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +
   theme_minimal() +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
-    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
-    axis.text.y = element_text(size = 20),                   # agregado → 20
-    axis.title.x = element_text(size = 20),                  # agregado → 20
-    axis.title.y = element_text(size = 20),                  # agregado → 20
+    plot.title = element_text(hjust = 0.5, size = 25),       
+    plot.subtitle = element_text(hjust = 0.5, size = 25),    
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 25),  
+    axis.text.y = element_text(size = 25),                   
+    axis.title.x = element_text(size = 25),                  
+    axis.title.y = element_text(size = 25),                  
     legend.position = "none",
-    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+    strip.text = element_text(face = "bold", size = 25)      
   ) +
   coord_flip()
 
@@ -200,7 +180,7 @@ diseno <- svydesign(
 tabla_contingencia <- svytable(~Valor + PAIS, design = diseno)
 
 # Calcular proporciones por PAIS
-props <- prop.table(tabla_contingencia, margin = 2) #* 100
+props <- prop.table(tabla_contingencia, margin = 2) 
 
 print(props)
 
@@ -219,7 +199,7 @@ props_df <- props_df %>%
     PAIS == "HND" ~ "Honduras",
     PAIS == "NIC" ~ "Nicaragua",
     PAIS == "MEX" ~ "Chiapas",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 write_xlsx(props_df, "id_multi_reasons_prop.xlsx")
@@ -248,13 +228,13 @@ reasons_plot_id <- props_df %>%
   ) +
   theme_minimal() +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
-    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
-    axis.text.y = element_text(size = 20),                   # agregado → 20
-    axis.title.x = element_text(size = 20),                  # agregado → 20
-    axis.title.y = element_text(size = 20),                  # agregado → 20
-    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+    plot.title = element_text(hjust = 0.5, size = 25),       
+    plot.subtitle = element_text(hjust = 0.5, size = 25),    
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 25),  
+    axis.text.y = element_text(size = 25),                   
+    axis.title.x = element_text(size = 25),                  
+    axis.title.y = element_text(size = 25),                  
+    strip.text = element_text(face = "bold", size = 25)      
   ) +
   coord_flip()
 print(reasons_plot_id)
@@ -267,8 +247,8 @@ combined_plot_id <- index_plot_id + reasons_plot_id +
     title = "Switch from institutional to home delivery",
     subtitle = "Chiapas N = 25 | Guatemala N = 50 | Honduras N = 8 | Nicaragua N = 12",
     theme = theme(
-      plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 18 → 20
-      plot.subtitle = element_text(hjust = 0.5, size = 20)               # agregado → 20
+      plot.title = element_text(hjust = 0.5, size = 25, face = "bold"),  
+      plot.subtitle = element_text(hjust = 0.5, size = 25)               
     )
   )
 
@@ -290,34 +270,22 @@ institucional_36 <- di %>%
 table(institucional_36$index_d_qoc, institucional_36$PAIS)
 
 calcular_proporciones <- function(institucional_36) {
-  # Obtener los países únicos
   paises <- unique(institucional_36$PAIS)
-  
-  # Obtener los valores únicos de index_d_qoc
   indices <- sort(unique(institucional_36$index_d_qoc))
-  
-  # Crear un data.frame para almacenar los resultados
   resultados <- data.frame(PAIS = paises)
-  
-  # Para cada país, calcular las proporciones para cada valor de index_d_qoc
   for (pais in paises) {
-    # Filtrar datos para este país
+  
     datos_pais <- subset(institucional_36, PAIS == pais)
-    
-    # Calcular el peso total para este país
     peso_total <- sum(datos_pais$WEIGHT_WOMAN)
     
-    # Para cada valor de index_d_qoc, calcular la proporción
     for (indice in indices) {
-      # Filtrar para este índice
-      datos_indice <- subset(datos_pais, index_d_qoc == indice)
       
-      # Si hay datos para este índice, calcular la proporción
+      datos_indice <- subset(datos_pais, index_d_qoc == indice)
       if (nrow(datos_indice) > 0) {
         peso_indice <- sum(datos_indice$WEIGHT_WOMAN)
         proporcion <- peso_indice / peso_total
       } else {
-        proporcion <- 0  # Si no hay datos para este índice
+        proporcion <- 0 
       }
       
       # Agregar al data.frame de resultados
@@ -331,8 +299,6 @@ calcular_proporciones <- function(institucional_36) {
 # Ejecutar la función
 proporciones <- calcular_proporciones(institucional_36)
 
-# Mostrar los resultados
-print(proporciones)
 
 write_xlsx(proporciones, "di_multi_index_prop.xlsx")
 
@@ -354,7 +320,7 @@ conteo <- conteo %>%
     PAIS == "MEX" ~ "Chiapas",
     PAIS == "HND" ~ "Honduras",
     PAIS == "GTM" ~ "Guatemala",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 df_long <- df_long %>%
@@ -363,7 +329,7 @@ df_long <- df_long %>%
     PAIS == "MEX" ~ "Chiapas",
     PAIS == "HND" ~ "Honduras",
     PAIS == "GTM" ~ "Guatemala",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 df_long <- df_long %>%
@@ -373,7 +339,7 @@ df_long <- df_long %>%
     index == "index_2" ~ "2/4",
     index == "index_3" ~ "3/4",
     index == "index_4" ~ "4/4",
-    TRUE ~ index # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ index 
   ))
 
 final_grafico <- df_long %>%
@@ -381,7 +347,7 @@ final_grafico <- df_long %>%
 
 aux_data <- final_grafico %>%
   group_by(PAIS) %>%
-  slice(1) %>%  # Toma solo la primera fila de cada grupo
+  slice(1) %>%  
   ungroup()
 
 index_plot_di <- ggplot(df_long, aes(x = index, y = valor)) +
@@ -393,14 +359,14 @@ index_plot_di <- ggplot(df_long, aes(x = index, y = valor)) +
   facet_wrap(~ PAIS, scales = "free_y", ncol = 1) +
   theme_minimal() +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
-    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
-    axis.text.y = element_text(size = 20),                   # agregado → 20
-    axis.title.x = element_text(size = 20),                  # agregado → 20
-    axis.title.y = element_text(size = 20),                  # agregado → 20
+    plot.title = element_text(hjust = 0.5, size = 25),       
+    plot.subtitle = element_text(hjust = 0.5, size = 25),    
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 25), 
+    axis.text.y = element_text(size = 25),                   
+    axis.title.x = element_text(size = 25),                  
+    axis.title.y = element_text(size = 25),                  
     legend.position = "none",
-    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+    strip.text = element_text(face = "bold", size = 25)      
   ) +
   coord_flip()
 print(index_plot_di)
@@ -453,7 +419,7 @@ diseno <- svydesign(
 tabla_contingencia <- svytable(~Valor + PAIS, design = diseno)
 
 # Calcular proporciones por PAIS
-props <- prop.table(tabla_contingencia, margin = 2) #* 100
+props <- prop.table(tabla_contingencia, margin = 2) 
 
 print(props)
 
@@ -472,7 +438,7 @@ props_df <- props_df %>%
     PAIS == "HND" ~ "Honduras",
     PAIS == "NIC" ~ "Nicaragua",
     PAIS == "MEX" ~ "Chiapas",
-    TRUE ~ PAIS # Mantiene los valores existentes si no coinciden con los casos anteriores
+    TRUE ~ PAIS 
   ))
 
 write_xlsx(props_df, "di_multi_reasons_prop.xlsx")
@@ -502,13 +468,13 @@ reasons_plot_di <- props_df %>%
   ) +
   theme_minimal() +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 20),       # era 16 → 20
-    plot.subtitle = element_text(hjust = 0.5, size = 20),    # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # agregado → 20
-    axis.text.y = element_text(size = 20),                   # agregado → 20
-    axis.title.x = element_text(size = 20),                  # agregado → 20
-    axis.title.y = element_text(size = 20),                  # agregado → 20
-    strip.text = element_text(face = "bold", size = 20)      # agregado → 20
+    plot.title = element_text(hjust = 0.5, size = 25),      
+    plot.subtitle = element_text(hjust = 0.5, size = 25),   
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 25),  
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_text(size = 25),
+    axis.title.y = element_text(size = 25),
+    strip.text = element_text(face = "bold", size = 25)
   ) +
   coord_flip()
 
@@ -520,14 +486,9 @@ combined_plot_di <- reasons_plot_di + index_plot_di +
     title = "Switch from home to institutional delivery",
     subtitle = "Chiapas N = 39 | Guatemala N = 48 | Honduras N = 38 | Nicaragua N = 17",
     theme = theme(
-      plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 18 → 20
-      plot.subtitle = element_text(hjust = 0.5, size = 20)               # agregado → 20
+      plot.title = element_text(hjust = 0.5, size = 25, face = "bold"),  
+      plot.subtitle = element_text(hjust = 0.5, size = 25)               
     )
   )
 
 print(combined_plot_di)
-
-svg("combined_plot_di.svg")
-svg("combined_plot_id.svg")
-ggsave(filename = "combined_plot_di.svg", plot = combined_plot_di, width = 10, height = 8)
-ggsave(filename = "combined_plot_id.svg", plot = combined_plot_id, width = 10, height = 8)

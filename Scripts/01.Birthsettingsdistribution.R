@@ -81,7 +81,7 @@ resultados_comparaciones <- resultados_proporciones %>%
 # Join comparison with proportion
 resultados_finales <- resultados_proporciones %>%
   left_join(resultados_comparaciones, by = "PAIS") %>%
-  distinct() # Eliminar filas duplicadas
+  distinct() 
 
 
 #Arrange names for figure
@@ -234,7 +234,6 @@ graf <- ggplot(df_long_updated, aes(y = FUP, x = Percentage_100, fill = Delivery
   )
 print(graf)
 
-#ggsave("fig2prueba.svg", plot = graf, width = 10, height = 8) 
 
 #####Figures 3 and 5
 #Load dataset from 3 FUP, all used variables
@@ -297,24 +296,25 @@ nombres_paises <- c("4 (4/4 affirmative domains)", "3 (3/4 affirmative domains)"
 graf_d <- ggplot(resultados_proporciones, aes(x = FUP, y = proporcion, fill = factor(index_d_qoc))) +
   geom_col(position = "dodge") +
   geom_text(data = aux_data, aes(x = FUP, y = 0.8, label = paste("N=", N_total, sep="")),
-            position = position_dodge(width = 0.9), vjust = -0.5, size = 7) +  # era 3.5 → 7
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 10) +  # era 3.5 → 7
   scale_y_continuous(limits = c(0, 0.9)) +
   facet_wrap(~ PAIS, ncol = 2, labeller = labeller(PAIS = function(x) c("Guatemala", "Honduras", "Chiapas", "Nicaragua"))) +
   labs(title = "Score proportion distribution in live births by country and follow up",
        x = "Follow up", y = "Proportion of live births with each score", fill = "Quality domain score value") +
   scale_fill_manual(values = c("#BE2641", "#EA7246", "#E87687", "#76669B", "#33608C"),
                     labels = nombres_paises) +
-  theme_minimal() +
+  #theme_minimal() +
+  theme_minimal(base_size = 25) + 
   theme(
-    plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),  # era 16 → 20
-    plot.subtitle = element_text(hjust = 0.5, size = 20),              # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),     # agregado → 20
-    axis.text.y = element_text(size = 20),                             # agregado → 20
-    axis.title.x = element_text(size = 20),                            # agregado → 20
-    axis.title.y = element_text(size = 20),                            # agregado → 20
-    strip.text = element_text(face = "bold", size = 20),               # era 12 → 20
-    legend.text = element_text(size = 20),                             # agregado → 20
-    legend.title = element_text(size = 20)                             # agregado → 20
+    plot.title = element_text(hjust = 0.5, size = 25), 
+    plot.subtitle = element_text(hjust = 0.5, size = 25),             
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 25),     
+    axis.text.y = element_text(size = 25),                            
+    axis.title.x = element_text(size = 25),                           
+    axis.title.y = element_text(size = 25),                           
+    strip.text = element_text(face = "bold", size = 25),              
+    legend.text = element_text(size = 25),                            
+    legend.title = element_text(size = 25)                            
   ) +
   coord_flip()
 
@@ -459,18 +459,16 @@ graf <- props_df %>%
   scale_color_brewer(palette = "Set2") +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)) +
   theme(
-    plot.title = element_text(size = 30),         # agregado → 20
-    axis.text.x = element_text(size = 30),        # agregado → 20
-    axis.text.y = element_text(size = 30),        # agregado → 20
-    axis.title.x = element_text(size = 30),       # agregado → 20
-    axis.title.y = element_text(size = 30),       # agregado → 20
-    strip.text = element_text(size = 30),         # agregado → 20
-    legend.text = element_text(size = 30),        # agregado → 20
-    legend.title = element_text(size = 30)        # agregado → 20
+    plot.title = element_text(size = 30),       
+    axis.text.x = element_text(size = 20),      
+    axis.text.y = element_text(size = 20),      
+    axis.title.x = element_text(size = 20),     
+    axis.title.y = element_text(size = 20),     
+    strip.text = element_text(size = 20),       
+    legend.text = element_text(size = 20),      
+    legend.title = element_text(size = 20)      
   )
 print(graf)
-#ggsave("Lineas.svg", plot = graf, width = 10, height = 8) 
-
 
 
 ####Figure 4
@@ -580,12 +578,6 @@ for (k in paises) {
   }
 }
 
-
-# Save results
-# writexl::write_xlsx(resultados_completo, "resultados_medias.csv")
-# writexl::write_xlsx(resultados_anova, "resultados_anova.csv")
-
-
 # 1) Visualization by country
 
 names(resultados_completo) <- c("COUNTRY", "FUP", "AREA",
@@ -653,14 +645,14 @@ plot_pais <- datos %>%
   scale_fill_manual(values = c("#4271AE", "#9B59B6", "#5DADE2")) +
   theme_bw() +
   theme(
-    plot.title = element_text(size = 20),          # agregado → 20
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 20),  # era sin size → 20
-    axis.text.y = element_text(size = 20),         # agregado → 20
-    axis.title.x = element_text(size = 20),        # agregado → 20
-    axis.title.y = element_text(size = 20),        # agregado → 20
-    strip.text = element_text(size = 20),          # agregado → 20
-    legend.text = element_text(size = 20),         # agregado → 20
-    legend.title = element_text(size = 20)         # agregado → 20
+    plot.title = element_text(size = 30),         
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 30),  
+    axis.text.y = element_text(size = 30),        
+    axis.title.x = element_text(size = 30),       
+    axis.title.y = element_text(size = 30),       
+    strip.text = element_text(size = 30),         
+    legend.text = element_text(size = 30),        
+    legend.title = element_text(size = 30)        
   )
 print(plot_pais)
 
