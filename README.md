@@ -47,7 +47,6 @@ To replicate the study results, follow the steps below:
 source("RUN_PROCESS.r")
 `
 
-Note: The RUN_PROCESS.r script manages the sequential execution of all modular scripts. It reads files from `inputs/` and populates the `outputs/` folder. Please be aware that existing files in the `outputs/` directory will be overwritten upon execution.
 
 
 ## Citation
